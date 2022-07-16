@@ -1,0 +1,67 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec 24 14:59:13 2018
+
+@author: cenim
+"""
+import pandas as pd
+# Load birth data
+from pandas import read_csv
+#from matplotlib import pyplot
+import matplotlib.pyplot as plt
+#import numpy as np
+import seaborn as sns
+
+
+#sns.set(style="whitegrid")
+series = pd.read_csv("C:\HPRAY2021\Investigacion2022\Huerta\BASERMK2019CROP.csv", header=0)
+print(series.head())
+series2 = pd.DataFrame(data= series)
+series2.set_index('FECHA', inplace=True)
+
+plt.figure(1)
+series2.plot()
+plt.show()
+
+series3 = read_csv('C:\HPRAY2021\Investigacion2022\Huerta\BASERMK2019CROP.csv', header=0, parse_dates=[0], index_col=0, squeeze=True)
+print(type(series3))
+print(series3.head())
+
+plot_cols=['PRECIP','RADINORM','T MIN','T MAX','TBASONORM','TVDNORM','T 0 CREC','TMINMAXNORM','T OPT CREC']
+styles= ['bs--','ro-','y^-','ko-','gs-','mo-','c-','ks--','r^--']
+
+plt.figure(2)
+#series3[["PRECIP","RADINORM","T MIN","T MAX","TBASONORM","TVDNORM","T 0 CREC","TMINMAXNORM","T OPT CREC"]].plot(figsize=(12,7),legend=True,grid=True,style=styles)
+series3[plot_cols].plot(figsize=(12,7),grid=True,style=styles)
+
+plt.title("Crop Yield predictors", fontsize=18, fontweight='bold', y=1.02)
+plt.xlabel("Calendar Date", fontsize=12, fontweight='bold', labelpad=15)
+plt.ylabel("Predictors", fontsize=12, fontweight='bold', labelpad=15)
+plt.tick_params(labelsize=12, pad=6)
+plt.xlim('2019-05-13','2019-12-25')
+plt.legend(["Precipitation","Radiation","Tmin","Tmax","Tbaseopt","Tverdesv","T0grow","Tminmax","Toptgrow"])
+dates_rng1 = pd.date_range('2019-05-13','2019-12-25', freq='10D')
+plt.xticks(dates_rng1, [dtz.strftime('%Y-%m') for dtz in dates_rng1], rotation=45)
+
+series4 = read_csv('C:\HPRAY2021\Investigacion2022\Huerta\BASERMK2019BIO1.csv', header=0, parse_dates=True, index_col='FECHA',dayfirst=True)
+print(type(series4))
+print(series4.head())
+
+plot_cols=['PESO FRESCO TOTAL','NUM HOJAS','N HOJAS DOBLADAS','HOJAS PESO FRESCO','TALLO PESO FRESCO','CABEZA PESO FRESCO','DIAMETRO TALLO BASE','DIAMETRO TALLO 5 CM','DIAMETRO TALLO 10 CM',
+           'DIAMETRO TALLO 15 CM', 'DIAMETRO TALL 20 CM', 'LONG TALLO','AREA FOLIAR', 'HOJA PESO SECO','TALLO PESO SECO','BRO LAT PESO FRESCO','BRO LAT PESO SECO','CABEZA PESO SECO','PESO SECO TOTAL',
+           'AREA FLORETE']
+styles1= ['b--','r-','y-','k-','g-','m-','c-','k--','r--','b--','r-','y-','k-','g-','m-','c-','k--','r--','b--']
+plt.style.use('seaborn-whitegrid')
+sns.set(rc={'figure.figsize':(12,7)})
+plt.figure(3)
+#series3[["PRECIP","RADINORM","T MIN","T MAX","TBASONORM","TVDNORM","T 0 CREC","TMINMAXNORM","T OPT CREC"]].plot(figsize=(12,7),legend=True,grid=True,style=styles)
+series4[plot_cols].plot(figsize=(12,7),grid=True,style=styles1,linewidth=0.5)
+
+plt.title("Chart 127 Plant Biometry predictors", fontsize=18, fontweight='bold', y=1.02)
+plt.xlabel("Calendar Date", fontsize=12, fontweight='bold', labelpad=15)
+plt.ylabel("Predictors", fontsize=12, fontweight='bold', labelpad=15)
+plt.tick_params(labelsize=12, pad=6)
+plt.xlim('2019-05-13','2019-08-10')
+#plt.legend(["Precipitation","Radiation","Tmin","Tmax","Tbaseopt","Tverdesv","T0grow","Tminmax","Toptgrow"])
+dates_rng1 = pd.date_range('2019-05-13','2019-08-10', freq='5D')
+plt.xticks(dates_rng1, [dtz.strftime('%Y-%m') for dtz in dates_rng1], rotation=45)
